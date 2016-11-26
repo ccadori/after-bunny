@@ -47,9 +47,9 @@ public class Trap : MonoBehaviour
 		anim.SetBool ("Closed", false);
 	}
 
-	void OnCollisionEnter2D(Collision2D other)
+	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.collider.CompareTag ("Player"))
+		if (other.CompareTag ("Player"))
 			Close ();
 	}
 }
