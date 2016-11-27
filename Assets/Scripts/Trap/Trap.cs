@@ -24,8 +24,6 @@ public class Trap : MonoBehaviour
 	{
 		RaycastHit2D hit = Physics2D.Raycast (transform.position, Vector2.up, raycastRange, affectedlayers);
 
-		Debug.Log (hit.collider);
-
 		if (hit.collider == null)
 			return; 
 		
@@ -62,9 +60,16 @@ public class Trap : MonoBehaviour
 		anim.SetBool ("Closed", false);
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
+	void FixedUpdate()
 	{
-		if (other.CompareTag ("Player"))
+		CheckSomethingOver ();
+	}
+
+	void CheckSomethingOver()
+	{
+		RaycastHit2D hit = Physics2D.Raycast (transform.position, Vector2.up, raycastRange, affectedlayers);
+
+		if (hit.collider != null)
 			Close ();
 	}
 }

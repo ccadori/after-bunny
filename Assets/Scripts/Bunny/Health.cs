@@ -10,6 +10,9 @@ public class Health : MonoBehaviour
 	public bool useAnimator;
 	// Inspector
 
+	public delegate void voidEvent();
+	public event voidEvent onDie;
+
 	private int currentHealth;
 	private bool alive;
 	private Animator anim;
@@ -44,9 +47,13 @@ public class Health : MonoBehaviour
 
 	public void Kill()
 	{
+		if (!alive)
+			return;
+
 		alive = false;
 
-		Debug.Log (alive);
+		if (onDie != null)
+			onDie ();
 
 		if (useAnimator && anim != null)
 			anim.SetBool ("Alive", alive);

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Throw : MonoBehaviour 
 {
 	// Inspector
@@ -13,27 +14,31 @@ public class Throw : MonoBehaviour
 	// Inspector
 
 	private bool pressing;
-	private GameObject pressedTarget;
+	private Vector3 startDragging;
+	private Rigidbody2D body;
 
+	void Start()
+	{
+		body = GetComponent<Rigidbody2D>();
+	}
 	// Update
 	void FixedUpdate()
 	{
 		if (Input.GetAxisRaw ("Fire1") > 0 && !pressing) 
 		{
+			startDragging = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			TimeController.ChangeState (TimeState.Slow);
-			pressedTarget = Raycast ();
-
-			if (pressedTarget != null) 
-				pressing = true;
+			pressing = true;
 		} 
 		else if (Input.GetAxisRaw ("Fire1") == 0)
 		{
 			if (pressing) 
 			{
-				TimeController.ChangeState (TimeState.Normal);
 				ThrowTarget ();
 				pressing = false;
 			}
+
+			TimeController.ChangeState (TimeState.Normal);
 		}
 	}
 	// Cast a ray searching for throwable targets
@@ -54,23 +59,14 @@ public class Throw : MonoBehaviour
 	// Throw the pressed target
 	void ThrowTarget()
 	{
-		if (pressedTarget == null) 
-			return;
-
 		Vector2 position = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		Vector2 direction = ((Vector2)position - (Vector2)pressedTarget.transform.position).normalized;
-		float calcForce = forceMultiplier * Vector2.Distance (pressedTarget.transform.position, position);
+		Vector2 direction = ((Vector2)position - (Vector2)startDragging).normalized;
+
+		float calcForce = forceMultiplier * Vector2.Distance (startDragging, position);
 		if (calcForce > maxForce)
 			calcForce = maxForce;
 
-		Rigidbody2D body = pressedTarget.GetComponent<Rigidbody2D> ();
-
-		if (body == null) 
-		{
-			Debug.LogError ("Pressed target does not has RigidBody2D");
-			return;
-		}
-
+		body.velocity = Vector2.zero;
 		body.AddForce (direction * calcForce);
 	}
 }
