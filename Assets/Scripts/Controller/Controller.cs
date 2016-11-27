@@ -10,6 +10,8 @@ public class Controller : MonoBehaviour
 	private GameObject currentBunny;
 	[SerializeField]
 	private float respawnDelay;
+	[SerializeField]
+	private GameObject deathParticle;
 	// Inspector
 
 	void Start()
@@ -31,6 +33,7 @@ public class Controller : MonoBehaviour
 
 	void OnDie()
 	{
+		Instantiate (deathParticle, currentBunny.transform.position, Quaternion.identity);
 		Destroy (currentBunny);
 		Invoke ("Respawn", respawnDelay);
 	}
