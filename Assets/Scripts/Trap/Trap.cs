@@ -22,7 +22,22 @@ public class Trap : MonoBehaviour
 
 	public void OnClose()
 	{
-		//RaycastHit2D hit = Physics2D.Raycast (transform.position, Vector3.forward, raycastRange, affectedlayers);
+		RaycastHit2D hit = Physics2D.Raycast (transform.position, Vector2.up, raycastRange, affectedlayers);
+
+		Debug.Log (hit.collider);
+
+		if (hit.collider == null)
+			return; 
+		
+		Health health = hit.collider.gameObject.GetComponent<Health> ();
+
+		if (health == null) 
+		{
+			Debug.LogError ("Cant get health from player");
+			return;
+		}
+
+		health.Kill ();
 	}
 
 	public void OnOpen()

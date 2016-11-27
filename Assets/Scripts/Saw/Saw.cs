@@ -22,4 +22,20 @@ public class Saw : MonoBehaviour
 	{
 		body.AddTorque (spinVelocity * Time.deltaTime * 100);
 	}
+
+	void OnCollisionEnter2D(Collision2D other)
+	{
+		if (other.gameObject.CompareTag ("Player")) 
+		{
+			Health health = other.gameObject.GetComponent<Health> ();
+
+			if (health == null) 
+			{
+				Debug.LogError ("Cant get health from player");
+				return;
+			}
+
+			health.Kill ();
+		}
+	}
 }

@@ -5,42 +5,32 @@ public class Throw : MonoBehaviour
 {
 	// Inspector
 	[SerializeField]
-	private int maxQuantity;
-	[SerializeField]
 	private LayerMask affectedLayer;
 	[SerializeField]
-	private float force;
+	private float forceMultiplier;
+	[SerializeField]
+	private float maxForce;
 	// Inspector
 
-	private int currentQuantity;
 	private bool pressing;
 	private GameObject pressedTarget;
 
-	// Start
-	void Start()
-	{
-		currentQuantity = maxQuantity;
-	}
 	// Update
 	void FixedUpdate()
 	{
 		if (Input.GetAxisRaw ("Fire1") > 0 && !pressing) 
 		{
-			if (currentQuantity > 0) 
-			{
-				pressedTarget = Raycast ();
+			TimeController.ChangeState (TimeState.Slow);
+			pressedTarget = Raycast ();
 
-				if (pressedTarget != null) 
-				{
-					pressing = true;
-					//currentQuantity--;
-				}
-			}
+			if (pressedTarget != null) 
+				pressing = true;
 		} 
 		else if (Input.GetAxisRaw ("Fire1") == 0)
 		{
 			if (pressing) 
 			{
+				TimeController.ChangeState (TimeState.Normal);
 				ThrowTarget ();
 				pressing = false;
 			}
@@ -69,7 +59,9 @@ public class Throw : MonoBehaviour
 
 		Vector2 position = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 		Vector2 direction = ((Vector2)position - (Vector2)pressedTarget.transform.position).normalized;
-		float calcForce = force * Vector2.Distance (pressedTarget.transform.position, position);
+		float calcForce = forceMultiplier * Vector2.Distance (pressedTarget.transform.position, position);
+		if (calcForce > maxForce)
+			calcForce = maxForce;
 
 		Rigidbody2D body = pressedTarget.GetComponent<Rigidbody2D> ();
 
