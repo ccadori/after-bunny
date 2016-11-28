@@ -9,6 +9,8 @@ public class Trap : MonoBehaviour
 	private float raycastRange;
 	[SerializeField]
 	private LayerMask affectedlayers;
+	[SerializeField]
+	private float timeToReload;
 	// Inspector
 
 	private bool closed;
@@ -22,6 +24,8 @@ public class Trap : MonoBehaviour
 
 	public void OnClose()
 	{
+		Invoke ("Open", timeToReload);
+
 		RaycastHit2D hit = Physics2D.Raycast (transform.position, Vector2.up, raycastRange, affectedlayers);
 
 		if (hit.collider == null)
