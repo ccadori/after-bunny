@@ -6,7 +6,7 @@ public class Throw : MonoBehaviour
 {
 	// Inspector
 	[SerializeField]
-	private LayerMask affectedLayer;
+	private LayerMask groundLayer;
 	[SerializeField]
 	private float forceMultiplier;
 	[SerializeField]
@@ -26,9 +26,11 @@ public class Throw : MonoBehaviour
 	{
 		if (Input.GetAxisRaw ("Fire1") > 0 && !pressing) 
 		{
-			startDragging = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-			TimeController.ChangeState (TimeState.Slow);
-			pressing = true;
+			if (IsOnGround ()) 
+			{
+				startDragging = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+				pressing = true;
+			}
 		} 
 		else if (Input.GetAxisRaw ("Fire1") == 0)
 		{
@@ -37,23 +39,19 @@ public class Throw : MonoBehaviour
 				ThrowTarget ();
 				pressing = false;
 			}
-
-			TimeController.ChangeState (TimeState.Normal);
 		}
 	}
-	// Cast a ray searching for throwable targets
-	GameObject Raycast()
+	bool IsOnGround()
 	{
-		Vector2 position = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		RaycastHit2D hit = Physics2D.Raycast (position, Vector2.zero, 1f, affectedLayer);
+		RaycastHit2D hit = Physics2D.Raycast (transform.position, -Vector2.up, 0.5f, groundLayer);
 
 		if (hit.collider != null)
 		{
-			return hit.collider.gameObject;
+			return true;
 		}
 		else 
 		{
-			return null;	
+			return false;	
 		}
 	}
 	// Throw the pressed target
