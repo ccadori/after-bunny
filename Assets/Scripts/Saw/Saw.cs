@@ -6,8 +6,10 @@ public class Saw : MonoBehaviour
 {
 	// Inspector
 	[SerializeField]
-	[Range(0, 100)]
+	[Range(0, 3)]
 	private float spinVelocity;
+	[SerializeField]
+	private float deathVelocity;
 	// Inspector
 
 	private Rigidbody2D body;
@@ -15,7 +17,6 @@ public class Saw : MonoBehaviour
 	void Start()
 	{
 		body = GetComponent<Rigidbody2D> ();
-		Spin ();
 	}
 
 	void Spin()
@@ -23,9 +24,14 @@ public class Saw : MonoBehaviour
 		body.AddTorque (spinVelocity * Time.deltaTime * 100);
 	}
 
+	void FixedUpdate()
+	{
+		Spin ();
+	}
+
 	void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.CompareTag ("Player")) 
+		if (other.gameObject.CompareTag ("Player") && body.angularVelocity > deathVelocity) 
 		{
 			Health health = other.gameObject.GetComponent<Health> ();
 
