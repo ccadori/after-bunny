@@ -11,6 +11,8 @@ public class Throw : MonoBehaviour
 	private float forceMultiplier;
 	[SerializeField]
 	private float maxForce;
+	[SerializeField]
+	private Vector3[] characterEdges;
 	// Inspector
 
 	private bool pressing;
@@ -43,16 +45,14 @@ public class Throw : MonoBehaviour
 	}
 	bool IsOnGround()
 	{
-		RaycastHit2D hit = Physics2D.Raycast (transform.position, -Vector2.up, 0.5f, groundLayer);
+		foreach(Vector3 edge in characterEdges)
+		{
+			RaycastHit2D hit = Physics2D.Raycast (transform.position + edge, -Vector2.up, 0.5f, groundLayer);
+			if (hit.collider != null)
+				return true;	
+		}
 
-		if (hit.collider != null)
-		{
-			return true;
-		}
-		else 
-		{
-			return false;	
-		}
+		return false;
 	}
 	// Throw the pressed target
 	void ThrowTarget()
