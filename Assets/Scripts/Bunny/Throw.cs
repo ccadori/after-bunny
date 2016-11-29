@@ -26,21 +26,15 @@ public class Throw : MonoBehaviour
 	// Update
 	void FixedUpdate()
 	{
-		if (Input.GetAxisRaw ("Fire1") > 0 && !pressing) 
+		if (Input.GetAxisRaw ("Fire1") > 0 && !pressing && IsOnGround ()) 
 		{
-			if (IsOnGround ()) 
-			{
-				startDragging = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-				pressing = true;
-			}
+			startDragging = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+			pressing = true;
 		} 
-		else if (Input.GetAxisRaw ("Fire1") == 0)
+		else if (Input.GetAxisRaw ("Fire1") == 0 && pressing && IsOnGround ())
 		{
-			if (pressing) 
-			{
-				ThrowTarget ();
-				pressing = false;
-			}
+			ThrowTarget ();
+			pressing = false;
 		}
 	}
 	bool IsOnGround()
@@ -64,7 +58,7 @@ public class Throw : MonoBehaviour
 		if (calcForce > maxForce)
 			calcForce = maxForce;
 
-		body.velocity = Vector2.zero;
+		//body.velocity = Vector2.zero;
 		body.AddForce (direction * calcForce);
 	}
 }

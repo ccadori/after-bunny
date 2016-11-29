@@ -29,9 +29,9 @@ public class Saw : MonoBehaviour
 		Spin ();
 	}
 
-	void OnCollisionEnter2D(Collision2D other)
+	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.CompareTag ("Player") && body.angularVelocity > deathVelocity) 
+		if (other.CompareTag ("Player") && body.angularVelocity > deathVelocity) 
 		{
 			Health health = other.gameObject.GetComponent<Health> ();
 
