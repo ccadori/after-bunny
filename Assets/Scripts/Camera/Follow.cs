@@ -17,12 +17,10 @@ public class Follow : MonoBehaviour
 	// Inspector
 
 	private GameObject target;
-	public GameObject[] targets;
 	private Vector3 velocity;
 
 	void Start()
 	{
-		targets = GameObject.FindGameObjectsWithTag (targetTag);
 		target = GameObject.FindGameObjectWithTag (targetTag);
 	}
 

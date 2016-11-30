@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Throw : MonoBehaviour 
@@ -26,7 +27,7 @@ public class Throw : MonoBehaviour
 	// Update
 	void FixedUpdate()
 	{
-		if (Input.GetAxisRaw ("Fire1") > 0 && !pressing && IsOnGround ()) 
+		if (Input.GetAxisRaw ("Fire1") > 0 && !pressing && IsOnGround () && !EventSystem.current.IsPointerOverGameObject()) 
 		{
 			startDragging = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			pressing = true;
@@ -58,7 +59,7 @@ public class Throw : MonoBehaviour
 		if (calcForce > maxForce)
 			calcForce = maxForce;
 
-		//body.velocity = Vector2.zero;
+		body.velocity = Vector2.zero;
 		body.AddForce (direction * calcForce);
 	}
 }
