@@ -7,16 +7,17 @@ public class Controller : MonoBehaviour
 	[SerializeField]
 	private GameObject bunnyPrefab;
 	[SerializeField]
-	private GameObject currentBunny;
-	[SerializeField]
 	private float respawnDelay;
 	[SerializeField]
 	private GameObject deathParticle;
-	// Inspector
+    // Inspector
+
+    public static GameObject currentBunny { private set; get; }
 
 	void Start()
 	{
-		SubscribeOnDie ();
+        currentBunny = GameObject.FindWithTag("Player");
+        SubscribeOnDie ();
 	}
 
 	void SubscribeOnDie()

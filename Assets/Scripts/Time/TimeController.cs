@@ -37,12 +37,11 @@ public class TimeController : MonoBehaviour
 		if (newState == TimeState.Slow) 
 		{
 			Time.timeScale = singleton.slowScale;
-			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		} 
 		else if (newState == TimeState.Normal) 
 		{
 			Time.timeScale = singleton.normalScale;
-			Time.fixedDeltaTime = 0.02f;
-		}	
-	}
+		}
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+    }
 }

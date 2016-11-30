@@ -25,16 +25,20 @@ public class Pause : MonoBehaviour
 	{
 		anim.SetBool ("Open", true);
 		button.SetActive (false);
-	}
+        TimeController.ChangeState(TimeState.Slow);
+    }
 
 	public void Resume()
 	{
 		anim.SetBool ("Open", false);
 		button.SetActive (true);
+        TimeController.ChangeState(TimeState.Normal);
 	}
 
 	public void Restart()
 	{
-		
-	}
+        Checkpoint.Restart();
+        Controller.currentBunny.GetComponent<Health>().Kill();
+        Resume();
+    }
 }

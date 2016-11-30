@@ -8,9 +8,10 @@ public class Checkpoint : MonoBehaviour
 	[SerializeField]
 	private string affectedTag;
 	[SerializeField]
-	private bool firstCheckpoint;
-	// Inspector
+	private bool isFirstCheckpoint;
+    // Inspector
 
+    static private Checkpoint firstCheckpoint;
 	static private volatile Checkpoint lastCheckpoint;
 	private Animator anim;
 	private bool active;
@@ -20,8 +21,11 @@ public class Checkpoint : MonoBehaviour
 		anim = GetComponent<Animator> ();
 		active = false;
 
-		if (firstCheckpoint)
-			Active ();
+        if (isFirstCheckpoint)
+        {
+            firstCheckpoint = this;
+            Active();
+        }
 	}
 
 	void Active()
@@ -49,4 +53,9 @@ public class Checkpoint : MonoBehaviour
 	{
 		return lastCheckpoint.transform;
 	}
+
+    public static void Restart()
+    {
+        lastCheckpoint = firstCheckpoint;
+    }
 }
