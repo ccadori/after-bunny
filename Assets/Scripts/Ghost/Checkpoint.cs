@@ -56,6 +56,11 @@ public class Checkpoint : MonoBehaviour
 
     public static void Restart()
     {
+        Checkpoint[] checkpoints = FindObjectsOfType<Checkpoint>();
+        foreach (Checkpoint checkpoint in checkpoints)
+        {
+            checkpoint.active = false;
+        }
         lastCheckpoint = firstCheckpoint;
     }
 }
