@@ -38,7 +38,8 @@ public class Pause : MonoBehaviour
 	public void Restart()
 	{
         Checkpoint.Restart();
-        Controller.currentBunny.GetComponent<Health>().Kill();
+        if (Controller.currentBunny != null)
+            Controller.currentBunny.GetComponent<Health>().Kill();
         Resume();
     }
 }
