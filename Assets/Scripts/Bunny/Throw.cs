@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -17,7 +16,7 @@ public class Throw : MonoBehaviour
 	// Inspector
 
 	private bool pressing;
-	private Vector3 startDragging;
+	private Vector2 startDragging;
 	private Rigidbody2D body;
 
 	void Start()
@@ -29,8 +28,9 @@ public class Throw : MonoBehaviour
 	{
 		if (Input.GetAxisRaw ("Fire1") > 0 && !pressing && IsOnGround () && !EventSystem.current.IsPointerOverGameObject()) 
 		{
-			startDragging = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-			pressing = true;
+            //startDragging = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+            startDragging = Input.mousePosition;
+            pressing = true;
 		} 
 		else if (Input.GetAxisRaw ("Fire1") == 0 && pressing && IsOnGround ())
 		{
@@ -52,8 +52,9 @@ public class Throw : MonoBehaviour
 	// Throw the pressed target
 	void ThrowTarget()
 	{
-		Vector2 position = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		Vector2 direction = ((Vector2)position - (Vector2)startDragging).normalized;
+        //Vector2 position = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+        Vector2 position = Input.mousePosition;
+        Vector2 direction = ((Vector2)position - (Vector2)startDragging).normalized;
 
 		float calcForce = forceMultiplier * Vector2.Distance (startDragging, position);
 		if (calcForce > maxForce)
