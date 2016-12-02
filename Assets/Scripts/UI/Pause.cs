@@ -1,45 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Pause : MonoBehaviour 
+public class Pause : UIBase 
 {
 	// Inspector
 	[SerializeField]
 	private GameObject button;
 	// Inspector
 
-	private Animator anim;
-
 	public void Exit()
 	{
 		Application.Quit ();
 	}
 
-	void Awake () 
-	{
-		anim = GetComponent<Animator> ();
-		anim.SetBool ("Open", false);
-	}
-
-	public void Open()
-	{
-		anim.SetBool ("Open", true);
-		button.SetActive (false);
+    public override void Open()
+    {
+        base.Open();
+        button.SetActive(false);
+        MusicVolume.OpenSingleton();
         TimeController.ChangeState(TimeState.Slow);
     }
 
-	public void Resume()
-	{
-		anim.SetBool ("Open", false);
-		button.SetActive (true);
+    public override void Close()
+    {
+        base.Close();
+        button.SetActive(true);
+        MusicVolume.CloseSingleton();
         TimeController.ChangeState(TimeState.Normal);
-	}
+    }
 
 	public void Restart()
 	{
         Checkpoint.Restart();
         if (Controller.currentBunny != null)
             Controller.currentBunny.GetComponent<Health>().Kill();
-        Resume();
+        Close();
     }
 }

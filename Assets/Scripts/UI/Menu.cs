@@ -1,28 +1,26 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Menu : MonoBehaviour 
+public class Menu : UIBase 
 {
 	// Inspector
 	[SerializeField]
 	private GameObject button;
-	// Inspector
+    // Inspector
 
-	private Animator anim;
+    private void Start()
+    {
+        Open();
+        MusicVolume.OpenSingleton();
+    }
 
-	void Awake () 
-	{
-		anim = GetComponent<Animator> ();
-		anim.SetBool ("Open", true);
-	}
+    public override void Close()
+    {
+        base.Close();
+        button.SetActive(true);
+        MusicVolume.CloseSingleton();
+    }
 
-	public void StartGame()
-	{
-		anim.SetBool ("Open", false);
-		button.SetActive (true);
-	}
-
-	public void Exit()
+    public void Exit()
 	{
 		Application.Quit ();
 	}
