@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ArrayOfText xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Text title="start">Jogar</Text>
+  <Text title="exit">Sair</Text>
+  <Text title="restart">Reiniciar</Text>
+  <Text title="pause">Pause</Text>
+  <Text title="resume">Continuar</Text>
+  <Text title="final">...</Text>
+  <Text title="load">Carregando o jogo...</Text>
+</ArrayOfText>
