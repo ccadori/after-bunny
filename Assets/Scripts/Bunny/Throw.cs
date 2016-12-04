@@ -26,13 +26,12 @@ public class Throw : MonoBehaviour
 	// Update
 	void FixedUpdate()
 	{
-		if (Input.GetAxisRaw ("Fire1") > 0 && !pressing && IsOnGround () && !EventSystem.current.IsPointerOverGameObject()) 
+        if (Input.GetAxisRaw("Fire1") > 0 && !pressing && IsOnGround() && Controller.state == GameState.Game) 
 		{
-            //startDragging = Camera.main.ScreenToWorldPoint (Input.mousePosition);
             startDragging = Input.mousePosition;
             pressing = true;
 		} 
-		else if (Input.GetAxisRaw ("Fire1") == 0 && pressing && IsOnGround ())
+		else if (Input.GetAxisRaw ("Fire1") == 0 && pressing && IsOnGround () && Controller.state == GameState.Game)
 		{
 			ThrowTarget ();
 			pressing = false;
@@ -52,11 +51,10 @@ public class Throw : MonoBehaviour
 	// Throw the pressed target
 	void ThrowTarget()
 	{
-        //Vector2 position = Camera.main.ScreenToWorldPoint (Input.mousePosition);
         Vector2 position = Input.mousePosition;
         Vector2 direction = ((Vector2)position - (Vector2)startDragging).normalized;
 
-		float calcForce = forceMultiplier * Vector2.Distance (startDragging, position);
+		float calcForce = forceMultiplier * Vector2.Distance (startDragging, position) * Time.deltaTime;
 		if (calcForce > maxForce)
 			calcForce = maxForce;
 

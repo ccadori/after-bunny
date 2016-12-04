@@ -38,7 +38,16 @@ public class Checkpoint : MonoBehaviour
 		NewCheckpoint (this);
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
+    void Disable()
+    {
+        if (!active)
+            return;
+
+        active = false;
+        anim.SetBool("Active", false);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.CompareTag (affectedTag))
 			Active ();	
@@ -54,13 +63,20 @@ public class Checkpoint : MonoBehaviour
 		return lastCheckpoint.transform;
 	}
 
+    public static Vector2 GetLastCheckpointPosition()
+    {
+        return lastCheckpoint.GetComponent<Parallax>().initialPosition;
+    }
+
     public static void Restart()
     {
         Checkpoint[] checkpoints = FindObjectsOfType<Checkpoint>();
+
         foreach (Checkpoint checkpoint in checkpoints)
         {
-            checkpoint.active = false;
+            checkpoint.Disable();
         }
+
         lastCheckpoint = firstCheckpoint;
     }
 }

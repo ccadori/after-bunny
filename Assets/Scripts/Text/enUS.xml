@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <ArrayOfText xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Text title="final-phrase">After Bunny</Text>
-  <Text title="loading">Carregando jogo...</Text>
-  <Text title="music">Volume do Aúdio</Text>
+  <Text title="loading">Loading...</Text>
+  <Text title="music">Audio Volume</Text>
 </ArrayOfText>

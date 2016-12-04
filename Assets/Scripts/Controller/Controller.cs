@@ -1,5 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
+
+public enum GameState
+{
+    Menu,
+    Game,
+    Pause
+}
 
 public class Controller : MonoBehaviour 
 {
@@ -10,15 +17,29 @@ public class Controller : MonoBehaviour
 	private float respawnDelay;
 	[SerializeField]
 	private GameObject deathParticle;
+    [SerializeField]
+    private float timeToRestart;
     // Inspector
 
     public static GameObject currentBunny { private set; get; }
+    public static GameState state;
 
-	void Start()
+    void Start()
 	{
         currentBunny = GameObject.FindWithTag("Player");
         SubscribeOnDie ();
-	}
+        ReachFinal.onFinal += Final;
+    }
+
+    void Final()
+    {
+        Invoke("ReloadGame", timeToRestart);
+    }
+    
+    void ReloadGame()
+    {
+        SceneManager.LoadScene("Fase1");
+    }
 
 	void SubscribeOnDie()
 	{
@@ -41,7 +62,7 @@ public class Controller : MonoBehaviour
 
 	void Respawn()
 	{
-		Vector2 respawnPosition = Checkpoint.GetLastCheckpoint ().position;
+		Vector2 respawnPosition = Checkpoint.GetLastCheckpointPosition();
 		currentBunny = Instantiate (bunnyPrefab ,respawnPosition, Quaternion.identity) as GameObject;
 		SubscribeOnDie ();
 	}

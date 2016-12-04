@@ -19,6 +19,7 @@ public class Pause : UIBase
         button.SetActive(false);
         MusicVolume.OpenSingleton();
         TimeController.ChangeState(TimeState.Slow);
+        Controller.state = GameState.Pause;
     }
 
     public override void Close()
@@ -27,6 +28,7 @@ public class Pause : UIBase
         button.SetActive(true);
         MusicVolume.CloseSingleton();
         TimeController.ChangeState(TimeState.Normal);
+        Controller.state = GameState.Game;
     }
 
 	public void Restart()

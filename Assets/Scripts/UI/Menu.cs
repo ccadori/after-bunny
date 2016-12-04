@@ -11,6 +11,7 @@ public class Menu : UIBase
     {
         Open();
         MusicVolume.OpenSingleton();
+        Controller.state = GameState.Menu;
     }
 
     public override void Close()
@@ -18,6 +19,7 @@ public class Menu : UIBase
         base.Close();
         button.SetActive(true);
         MusicVolume.CloseSingleton();
+        Controller.state = GameState.Game;
     }
 
     public void Exit()

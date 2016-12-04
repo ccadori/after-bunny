@@ -14,7 +14,7 @@ public class Parallax : MonoBehaviour
     // Inspector
 
     private GameObject target;
-    private Vector3 initialPosition;
+    public Vector3 initialPosition { private set; get; }
 
     private void Start()
     {
